@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kėdainiai 3D</title>
+<meta name="description" content="Atviro pasaulio vairavimo žaidimas tikro dydžio Kėdainiuose. Nemokamai Windows, macOS ir Linux.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 fill=%22%23ffc93c%22 stroke=%22%23111216%22 stroke-width=%226%22/%3E%3Ctext x=%2232%22 y=%2246%22 font-family=%22Arial Black,sans-serif%22 font-size=%2238%22 font-style=%22italic%22 font-weight=%22900%22 text-anchor=%22middle%22 fill=%22%23111216%22%3EK%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Lato:ital,wght@1,900&display=swap" rel="stylesheet">
+<style>
+  /* Comic look: ink, cream paper, gold captions, red */
+  :root { --ink:#111216; --paper:#f4eedc; --gold:#ffc93c; --red:#c62828; --magenta:#d6246e; --orange:#f28c28;
+          --slate:#2b3440; --green:#1e8a4c; }
+  * { box-sizing:border-box; }
+  body { margin:0; color:var(--ink); font-family:Inter, system-ui, sans-serif; line-height:1.6;
+         background:var(--paper) radial-gradient(rgba(17,18,22,.09) 1.2px, transparent 1.4px) 0 0/9px 9px; }
+  a { color:inherit; }
+  html:not([lang="en"]) [data-en], html[lang="en"] [data-lt] { display:none !important; }
+  .display { font-family:Lato, Impact, sans-serif; font-style:italic; font-weight:900; }
+  .lang { position:fixed; top:14px; right:14px; z-index:10; display:flex; border:3px solid var(--ink); box-shadow:4px 4px 0 var(--ink); transform:skewX(-10deg); }
+  .lang button { font:900 italic 15px Lato, sans-serif; border:0; padding:6px 12px; background:var(--paper); cursor:pointer; }
+  .lang button.on { background:var(--gold); }
+  .hero { position:relative; background:url(img/shot_oldtown.jpg) center/cover; min-height:min(82vh, 860px); display:flex; align-items:flex-end; border-bottom:8px solid var(--ink); }
+  .hero .in { position:relative; padding:48px 16px; max-width:1100px; margin:0 auto; width:100%; color:#fff; }
+  .hero .card { max-width:600px; background:rgba(17,18,22,.86); border:5px solid var(--ink); box-shadow:10px 10px 0 var(--red);
+                padding:22px 28px 26px; transform:skewX(-4deg); }
+  .hero .card > * { transform:skewX(4deg); }
+  h1 { font-family:Lato, Impact, sans-serif; font-style:italic; font-weight:900; font-size:clamp(56px,10vw,112px); margin:0; line-height:.95; color:#fff;
+       text-shadow:6px 7px 0 var(--ink), -2px -2px 0 var(--ink), 2px -2px 0 var(--ink), -2px 2px 0 var(--ink), 2px 2px 0 var(--ink); }
+  .tag { display:inline-block; background:var(--red); color:#fff; border:4px solid var(--ink); box-shadow:4px 4px 0 var(--ink);
+         padding:3px 14px; font:900 italic 17px Lato, sans-serif; letter-spacing:.5px; margin:14px 0 16px; }
+  .lead { font-size:18px; margin:0 0 22px; }
+  .btns { display:flex; flex-wrap:wrap; gap:14px; }
+  .btn { background:var(--gold); color:var(--ink); border:4px solid var(--ink); box-shadow:6px 6px 0 #000; padding:10px 22px;
+         font:900 italic 20px Lato, sans-serif; text-decoration:none; transition:transform .1s; transform:skewX(-10deg); }
+  .btn > * { display:block; }
+  .btn:hover, .btn:focus-visible { background:var(--red); color:#fff; transform:skewX(-10deg) translate(-2px,-2px); box-shadow:9px 9px 0 #000; }
+  .btn small { font:600 normal 12px Inter, sans-serif; opacity:.85; }
+  .ver { margin-top:16px; font-size:13px; opacity:.85; }
+  main { max-width:1100px; margin:0 auto; padding:24px 16px 60px; }
+  h2 { display:inline-block; font-family:Lato, Impact, sans-serif; font-style:italic; font-weight:900; font-size:34px; margin:56px 0 20px;
+       background:var(--gold); border:4px solid var(--ink); box-shadow:6px 6px 0 var(--ink); padding:2px 22px; transform:skewX(-10deg); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:26px; }
+  .panel { border:5px solid var(--ink); box-shadow:8px 8px 0 var(--ink); background:var(--paper); margin:0; transition:transform .15s; }
+  .panel:nth-child(odd) { transform:rotate(-.8deg); } .panel:nth-child(even) { transform:rotate(.7deg); }
+  .panel:hover { transform:rotate(0) scale(1.02); }
+  .panel img { display:block; width:100%; aspect-ratio:16/9; object-fit:cover; border-bottom:5px solid var(--ink); }
+  .panel figcaption { padding:10px 14px; font:900 italic 18px Lato, sans-serif; }
+  .panel figcaption span { display:block; font:400 normal 14px Inter, sans-serif; opacity:.75; }
+  .features { padding-left:20px; } .features li { margin:7px 0; }
+  .features li::marker { content:"★ "; color:var(--red); }
+  .keys { display:grid; grid-template-columns:auto 1fr; gap:8px 18px; align-items:center; }
+  kbd { background:var(--gold); border:2px solid var(--ink); box-shadow:2px 2px 0 var(--ink); padding:1px 8px; font-weight:800; font-family:inherit; margin-right:2px; }
+  .os { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:16px; }
+  .os div { border:4px solid var(--ink); box-shadow:5px 5px 0 var(--ink); padding:12px 16px; background:var(--paper); }
+  .os b { font:900 italic 20px Lato, sans-serif; }
+  footer { border-top:8px solid var(--ink); background:var(--slate); color:var(--paper); padding:22px 16px; font-size:14px; text-align:center; }
+  @media (max-width:600px) { .btn { width:100%; text-align:center; } .hero .card { transform:none; padding:18px; } .hero .card > * { transform:none; } }
+</style>
+</head>
+<body>
+<div class="lang" role="group" aria-label="Kalba / Language">
+  <button id="lt" class="on">LT</button><button id="en">EN</button>
+</div>
+
+<header class="hero">
+  <div class="in"><div class="card">
+    <h1>KĖDAINIAI</h1>
+    <div class="tag" data-lt>MIESTAS, KURIAME VISKAS ĮMANOMA</div>
+    <div class="tag" data-en>THE TOWN WHERE ANYTHING IS POSSIBLE</div>
+    <p class="lead" data-lt>Atviro pasaulio vairavimo žaidimas tikro dydžio Kėdainiuose: senamiestis, Nevėžis, sovietiniai kvartalai, Lifosa ir visos miesto gatvės.</p>
+    <p class="lead" data-en>An open-world driving game in a 1:1 model of Kėdainiai, Lithuania: the Old Town, the Nevėžis, the Soviet districts, Lifosa and every street in town.</p>
+    <div class="btns">
+      <a class="btn" href="https://github.com/gediminasurvila/kedainiai-3d-site/releases/latest/download/Kedainiai-windows.zip"><span>⬇ Windows</span><small data-lt>64 bitų · zip</small><small data-en>64-bit · zip</small></a>
+      <a class="btn" href="https://github.com/gediminasurvila/kedainiai-3d-site/releases/latest/download/Kedainiai-macos.zip"><span>⬇ macOS</span><small>Intel + Apple Silicon</small></a>
+      <a class="btn" href="https://github.com/gediminasurvila/kedainiai-3d-site/releases/latest/download/Kedainiai-linux.zip"><span>⬇ Linux</span><small>x86_64 · zip</small></a>
+    </div>
+    <div class="ver"><span data-lt>Nemokamai · apie 380 MB · </span><span data-en>Free · about 380 MB · </span><a href="https://github.com/gediminasurvila/kedainiai-3d-site/releases/latest" data-lt>visos versijos</a><a href="https://github.com/gediminasurvila/kedainiai-3d-site/releases/latest" data-en>all releases</a></div>
+  </div></div>
+</header>
+
+<main>
+  <h2 data-lt>Apie žaidimą</h2><h2 data-en>About</h2>
+  <p data-lt>Važinėk po Kėdainius tokius, kokie jie yra: tikros gatvės, pastatai ir reljefas iš atvirųjų duomenų, senamiesčio pirklių namai su laiptuotais frontonais, bažnyčios, minaretas, rotušė, Lifosos balti kalnai horizonte. Išlipk iš automobilio, vaikščiok, „pasiskolink“ kito mašiną, vežiok keleivius ir siuntas.</p>
+  <p data-en>Drive around Kėdainiai as it really is: real streets, buildings and terrain from open data, the Old Town's stepped-gable merchants' houses, the churches, the minaret, the Town Hall, and Lifosa's white hills on the horizon. Get out, walk, “borrow” someone else's car, carry passengers and parcels.</p>
+
+  <h2 data-lt>Kadrai</h2><h2 data-en>Screenshots</h2>
+  <div class="grid">
+    <figure class="panel"><img src="img/shot_square.jpg" alt="Didžioji rinka"><figcaption>Didžioji rinka<span data-lt>Pirklių namai su laiptuotais frontonais</span><span data-en>Merchants' houses with stepped gables</span></figcaption></figure>
+    <figure class="panel"><img src="img/shot_oldtown.jpg" alt="Senamiestis"><figcaption data-lt>Senamiestis<span>Rotušė, reformatų bažnyčia, Nevėžis</span></figcaption><figcaption data-en>Old Town<span>Town Hall, Reformed church, the Nevėžis</span></figcaption></figure>
+    <figure class="panel"><img src="img/shot_night.jpg" alt="Didžioji rinka naktį"><figcaption data-lt>Naktis senamiestyje<span>Šviečia langai, kavinės ir žibintai</span></figcaption><figcaption data-en>Night in the Old Town<span>Lit windows, cafés and street lamps</span></figcaption></figure>
+    <figure class="panel"><img src="img/shot_train.jpg" alt="Geležinkelio tiltas"><figcaption data-lt>Geležinkelio tiltas per Nevėžį<span>Krovininis traukinys į Lifosą</span></figcaption><figcaption data-en>Railway bridge over the Nevėžis<span>A freight train to Lifosa</span></figcaption></figure>
+    <figure class="panel"><img src="img/shot_drive.jpg" alt="Vairavimas"><figcaption data-lt>Vairavimas<span>Komikso stiliaus spidometras, gatvės ženklas, žemėlapis</span></figcaption><figcaption data-en>Driving<span>Comic speedometer, street sign, minimap</span></figcaption></figure>
+    <figure class="panel"><img src="img/shot_green.jpg" alt="Medžiai ir žolė"><figcaption data-lt>Šv. Jurgio bažnyčia<span>Eglės, liepos, beržai, žolė ir vėjas</span></figcaption><figcaption data-en>St George's church<span>Spruces, limes, birches, grass and wind</span></figcaption></figure>
+  </div>
+
+  <h2 data-lt>Kas viduje</h2><h2 data-en>Features</h2>
+  <ul class="features" data-lt>
+    <li>Kėdainiai 1:1 — apie 6 300 pastatų, 200 km gatvių, upė, tiltai, geležinkelis, kalvos</li>
+    <li>Tikros eismo taisyklės: vienpusės gatvės, greičio ribojimai, šviesoforai, Lietuvos kelio ženklai; autobusai ir krovininis traukinys</li>
+    <li>Įvairaus amžiaus žmonės gatvėse ir kiemuose; bet kurią mašiną gali paimti — vairuotojas pabėga</li>
+    <li>Gyvi medžiai, krūmai, žolė ir pievų gėlės, siūbuojantys vėjyje</li>
+    <li>Policija: ieškomumo žvaigždutės, gaudynės su sirenomis, tikri greičio matuokliai ir baudos</li>
+    <li>Miesto smulkmenos: sovietinių garažų eilės, palydovinės antenos, rūšiavimo konteineriai, pusiau požeminiai konteineriai, „Spaudos“ kioskai, pašto dėžutės</li>
+    <li>Gatvių gyvenimas: sportiniais kostiumais vilkintys chuliganai, kurie ieško muštynių, šunys, naktinis gyvenimas prie geležinkelio stoties</li>
+    <li>Kur išleisti pinigus: autoservisas (variklis, stabdžiai, padangos, azotas, perdažymas), naudotų automobilių aikštelė, medžioklės parduotuvė, drabužiai</li>
+    <li>Diena ir naktis; darbai: taksi, siuntos, picos, Agurkų šventė, gatvės lenktynės, maršrutinis taksi, vilkikas; garsai, žaidimų pultas</li>
+    <li>Žaidimas lietuvių kalba (galima perjungti į anglų)</li>
+    <li>Visas Kėdainių rajonas iki laukų: žemėlapio pakraštyje teks apsisukti</li>
+  </ul>
+  <ul class="features" data-en>
+    <li>Kėdainiai at 1:1 — about 6,300 buildings, 200 km of streets, the river, bridges, the railway, the hills</li>
+    <li>Real traffic rules: one-way streets, speed limits, traffic lights, Lithuanian road signs; buses and a freight train</li>
+    <li>People of all ages in the streets and courtyards; take any car — the driver runs away</li>
+    <li>Living trees, bushes, grass and wild flowers swaying in the wind</li>
+    <li>Police: wanted stars, chases with sirens, the real speed cameras and fines</li>
+    <li>Town details: Soviet garage rows, satellite dishes, recycling bells, semi-underground bins, newspaper kiosks, post boxes</li>
+    <li>Street life: tracksuit thugs looking for a fight, dogs, night life by the railway station</li>
+    <li>Spend your money: the garage (engine, brakes, tyres, nitro, respray), a used-car lot, a hunting shop, clothes</li>
+    <li>Day and night; jobs: taxi, parcels, pizza, the Cucumber Festival, street races, route taxi, tow truck; sounds, gamepad support</li>
+    <li>The game is in Lithuanian, with English available in the settings</li>
+    <li>The whole town out to the fields: at the edge of the map you turn back</li>
+  </ul>
+
+  <h2 data-lt>Valdymas</h2><h2 data-en>Controls</h2>
+  <div class="keys">
+    <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> / ← ↑ → ↓</span><span data-lt>vairuoti · eiti</span><span data-en>drive · walk</span>
+    <span><kbd>Tarpas</kbd></span><span data-lt>rankinis stabdys · šuolis</span><span data-en>handbrake · jump (Space)</span>
+    <span><kbd>F</kbd></span><span data-lt>išlipti / įlipti (arba paimti mašiną)</span><span data-en>get out / get in (or take a car)</span>
+    <span><kbd>J</kbd></span><span data-lt>imti darbą</span><span data-en>take a job</span>
+    <span><kbd>H</kbd></span><span data-lt>signalas</span><span data-en>horn</span>
+    <span><kbd>Q</kbd> / 🖱</span><span data-lt>smūgis · šūvis</span><span data-en>hit · shoot</span>
+    <span><kbd>Tab</kbd></span><span data-lt>keisti ginklą</span><span data-en>switch weapon</span>
+    <span><kbd>N</kbd></span><span data-lt>azoto greitintuvas</span><span data-en>nitro</span>
+    <span><kbd>C</kbd><kbd>M</kbd><kbd>Esc</kbd></span><span data-lt>kamera · žemėlapis · pauzė</span><span data-en>camera · minimap · pause</span>
+  </div>
+
+  <h2 data-lt>Kaip paleisti</h2><h2 data-en>How to run it</h2>
+  <div class="os">
+    <div><b>Windows</b><p data-lt>Išarchyvuok ir paleisk <code>Kedainiai.exe</code>. Jei Windows įspėja: „Daugiau informacijos“ → „Vis tiek paleisti“.</p><p data-en>Unzip and run <code>Kedainiai.exe</code>. If Windows warns you: “More info” → “Run anyway”.</p></div>
+    <div><b>macOS</b><p data-lt>Išarchyvuok, dešiniu pelės mygtuku spustelėk <code>Kedainiai.app</code> → „Atidaryti“.</p><p data-en>Unzip, right-click <code>Kedainiai.app</code> → “Open”.</p></div>
+    <div><b>Linux</b><p data-lt>Išarchyvuok ir paleisk <code>./Kedainiai.x86_64</code>.</p><p data-en>Unzip and run <code>./Kedainiai.x86_64</code>.</p></div>
+  </div>
+</main>
+
+<footer>
+  <span data-lt>Žaidimo autorius</span><span data-en>Game by</span> Gediminas Survila ·
+  <span data-lt>Žemėlapio duomenys</span><span data-en>Map data</span> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL) ·
+  Copernicus DEM GLO-30 · Regitra · Poly Haven (CC0) · Godot Engine · Blender ·
+  <a href="https://github.com/gediminasurvila/kedainiai-3d-site/releases">GitHub</a>
+</footer>
+
+<script>
+  const set = (l) => {
+    document.documentElement.lang = l;
+    document.getElementById('lt').classList.toggle('on', l === 'lt');
+    document.getElementById('en').classList.toggle('on', l === 'en');
+    try { localStorage.setItem('lang', l); } catch (e) {}
+  };
+  let saved = 'lt';
+  try { saved = localStorage.getItem('lang') || 'lt'; } catch (e) {}
+  set(saved);
+  document.getElementById('lt').onclick = () => set('lt');
+  document.getElementById('en').onclick = () => set('en');
+</script>
+</body>
+</html>
