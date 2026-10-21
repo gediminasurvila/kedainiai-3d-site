@@ -7,7 +7,7 @@
 <meta name="description" content="Atviro pasaulio vairavimo žaidimas tikro dydžio Kėdainiuose. Nemokamai Windows, macOS ir Linux.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 fill=%22%23ffc93c%22 stroke=%22%23111216%22 stroke-width=%226%22/%3E%3Ctext x=%2232%22 y=%2246%22 font-family=%22Arial Black,sans-serif%22 font-size=%2238%22 font-style=%22italic%22 font-weight=%22900%22 text-anchor=%22middle%22 fill=%22%23111216%22%3EK%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Lato:ital,wght@1,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Barlow:ital,wght@1,800;1,900&display=swap" rel="stylesheet">
 <style>
   /* Comic look: ink, cream paper, gold captions, red */
   :root { --ink:#111216; --paper:#f4eedc; --gold:#ffc93c; --red:#c62828; --magenta:#d6246e; --orange:#f28c28;
@@ -17,37 +17,37 @@
          background:var(--paper) radial-gradient(rgba(17,18,22,.09) 1.2px, transparent 1.4px) 0 0/9px 9px; }
   a { color:inherit; }
   html:not([lang="en"]) [data-en], html[lang="en"] [data-lt] { display:none !important; }
-  .display { font-family:Lato, Impact, sans-serif; font-style:italic; font-weight:900; }
+  .display { font-family:Barlow, Impact, sans-serif; font-style:italic; font-weight:900; }
   .lang { position:fixed; top:14px; right:14px; z-index:10; display:flex; border:3px solid var(--ink); box-shadow:4px 4px 0 var(--ink); transform:skewX(-10deg); }
-  .lang button { font:900 italic 15px Lato, sans-serif; border:0; padding:6px 12px; background:var(--paper); cursor:pointer; }
+  .lang button { font:900 italic 15px Barlow, sans-serif; border:0; padding:6px 12px; background:var(--paper); cursor:pointer; }
   .lang button.on { background:var(--gold); }
   .hero { position:relative; background:url(img/shot_oldtown.jpg) center/cover; min-height:min(82vh, 860px); display:flex; align-items:flex-end; border-bottom:8px solid var(--ink); }
   .hero .in { position:relative; padding:48px 16px; max-width:1100px; margin:0 auto; width:100%; color:#fff; }
   .hero .card { max-width:600px; background:rgba(17,18,22,.86); border:5px solid var(--ink); box-shadow:10px 10px 0 var(--red);
                 padding:22px 28px 26px; transform:skewX(-4deg); }
   .hero .card > * { transform:skewX(4deg); }
-  h1 { font-family:Lato, Impact, sans-serif; font-style:italic; font-weight:900; font-size:clamp(56px,10vw,112px); margin:0; line-height:.95; color:#fff;
+  h1 { font-family:Barlow, Impact, sans-serif; font-style:italic; font-weight:900; font-size:clamp(56px,10vw,112px); margin:0; line-height:.95; color:#fff;
        text-shadow:6px 7px 0 var(--ink), -2px -2px 0 var(--ink), 2px -2px 0 var(--ink), -2px 2px 0 var(--ink), 2px 2px 0 var(--ink); }
   .tag { display:inline-block; background:var(--red); color:#fff; border:4px solid var(--ink); box-shadow:4px 4px 0 var(--ink);
-         padding:3px 14px; font:900 italic 17px Lato, sans-serif; letter-spacing:.5px; margin:14px 0 16px; }
+         padding:3px 14px; font:900 italic 17px Barlow, sans-serif; letter-spacing:.5px; margin:14px 0 16px; }
   .lead { font-size:18px; margin:0 0 22px; }
   .btns { display:flex; flex-wrap:wrap; gap:14px; }
   .btn { background:var(--gold); color:var(--ink); border:4px solid var(--ink); box-shadow:6px 6px 0 #000; padding:10px 22px;
-         font:900 italic 20px Lato, sans-serif; text-decoration:none; transition:transform .1s; transform:skewX(-10deg); }
+         font:900 italic 20px Barlow, sans-serif; text-decoration:none; transition:transform .1s; transform:skewX(-10deg); }
   .btn > * { display:block; }
   .btn:hover, .btn:focus-visible { background:var(--red); color:#fff; transform:skewX(-10deg) translate(-2px,-2px); box-shadow:9px 9px 0 #000; }
   .btn-web { background:var(--paper); }
   .btn small { font:600 normal 12px Inter, sans-serif; opacity:.85; }
   .ver { margin-top:16px; font-size:13px; opacity:.85; }
   main { max-width:1100px; margin:0 auto; padding:24px 16px 60px; }
-  h2 { display:inline-block; font-family:Lato, Impact, sans-serif; font-style:italic; font-weight:900; font-size:34px; margin:56px 0 20px;
+  h2 { display:inline-block; font-family:Barlow, Impact, sans-serif; font-style:italic; font-weight:900; font-size:34px; margin:56px 0 20px;
        background:var(--gold); border:4px solid var(--ink); box-shadow:6px 6px 0 var(--ink); padding:2px 22px; transform:skewX(-10deg); }
   .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:26px; }
   .panel { border:5px solid var(--ink); box-shadow:8px 8px 0 var(--ink); background:var(--paper); margin:0; transition:transform .15s; }
   .panel:nth-child(odd) { transform:rotate(-.8deg); } .panel:nth-child(even) { transform:rotate(.7deg); }
   .panel:hover { transform:rotate(0) scale(1.02); }
   .panel img { display:block; width:100%; aspect-ratio:16/9; object-fit:cover; border-bottom:5px solid var(--ink); }
-  .panel figcaption { padding:10px 14px; font:900 italic 18px Lato, sans-serif; }
+  .panel figcaption { padding:10px 14px; font:900 italic 18px Barlow, sans-serif; }
   .panel figcaption span { display:block; font:400 normal 14px Inter, sans-serif; opacity:.75; }
   .features { padding-left:20px; } .features li { margin:7px 0; }
   .features li::marker { content:"★ "; color:var(--red); }
@@ -55,7 +55,7 @@
   kbd { background:var(--gold); border:2px solid var(--ink); box-shadow:2px 2px 0 var(--ink); padding:1px 8px; font-weight:800; font-family:inherit; margin-right:2px; }
   .os { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:16px; }
   .os div { border:4px solid var(--ink); box-shadow:5px 5px 0 var(--ink); padding:12px 16px; background:var(--paper); }
-  .os b { font:900 italic 20px Lato, sans-serif; }
+  .os b { font:900 italic 20px Barlow, sans-serif; }
   footer { border-top:8px solid var(--ink); background:var(--slate); color:var(--paper); padding:22px 16px; font-size:14px; text-align:center; }
   @media (max-width:600px) { .btn { width:100%; text-align:center; } .hero .card { transform:none; padding:18px; } .hero .card > * { transform:none; } }
 </style>
