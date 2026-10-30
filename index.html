@@ -62,7 +62,7 @@
 </head>
 <body>
 <div class="lang" role="group" aria-label="Kalba / Language">
-  <button id="lt" class="on">LT</button><button id="en">EN</button>
+  <button id="lt" class="on" aria-pressed="true">LT</button><button id="en" aria-pressed="false">EN</button>
 </div>
 
 <header class="hero">
@@ -166,17 +166,24 @@
 </footer>
 
 <script>
+  const LANGS = ['lt', 'en'];
   const set = (l) => {
     document.documentElement.lang = l;
-    document.getElementById('lt').classList.toggle('on', l === 'lt');
-    document.getElementById('en').classList.toggle('on', l === 'en');
-    try { localStorage.setItem('lang', l); } catch (e) {}
+    for (const c of LANGS) {
+      const b = document.getElementById(c);
+      b.classList.toggle('on', c === l);
+      b.setAttribute('aria-pressed', c === l);
+    }
   };
+  // The 'lang' key is shared with the Telšiai site, which also offers 'sgs': show Lithuanian
+  // for values this page lacks, but only overwrite the key when a button is clicked.
   let saved = 'lt';
   try { saved = localStorage.getItem('lang') || 'lt'; } catch (e) {}
-  set(saved);
-  document.getElementById('lt').onclick = () => set('lt');
-  document.getElementById('en').onclick = () => set('en');
+  set(LANGS.includes(saved) ? saved : 'lt');
+  for (const c of LANGS) document.getElementById(c).onclick = () => {
+    set(c);
+    try { localStorage.setItem('lang', c); } catch (e) {}
+  };
 </script>
 </body>
 </html>
